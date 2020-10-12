@@ -1,0 +1,35 @@
+DSD_kind_specification: V001
+
+package: HPE::Meraki::CFS
+name: ListOrganizations
+version: 000.00
+
+root: true
+makeservice: true
+
+parameters:
+
+  Meraki:
+    type: object
+    display: false
+    value: "@bean(com.hp.ov.activator.ci.dde.inventory.Service, findByServicetypeversion, CISCO::Meraki::1_0::System-000.00)"
+  
+  authToken:
+    type: string
+    display: false
+    description: "Authentication Token"
+    value: $Meraki.authToken
+  
+  Organizations:
+    type: list<object>
+    display: true
+    description: Display organizations
+    value: "@parsejson($Orgs.organizations)"
+  
+components:
+  Orgs:
+    kind: CISCO::Meraki::1_0::Resources::ListOrganizations
+    parameters:
+       targetResource: $Meraki
+       authToken: $authToken
+       

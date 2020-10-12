@@ -1,0 +1,56 @@
+DSD_kind_specification: V001
+
+package: HPE::Meraki::CFS
+name: Network
+version: 000.00
+
+#root: true
+makeservice: true
+
+parameters:
+
+  Meraki:
+    type: object
+    display: true
+    value: $parent.Meraki
+  
+  authToken:
+    type: string
+    display: true
+    description: "Authentication Token"
+    value: $Meraki.authToken
+    
+  name:
+    type: string
+    source: request
+    description: "Network Name"
+    optional: false
+  
+  copyFromNetworkId:
+    type: string
+    label: CopyFromNetworkId
+    source: request
+    description: "The ID of the network to copy configuration from"
+    optional: true
+  
+  networkType:
+    type: string
+    label: Network Type
+    source: request
+    description: "Type of network. It can be one/combination of appliance, camera, switch "
+    optional: false
+  
+services:
+  Device:
+    kind: HPE::Meraki::CFS::Device
+
+components:
+  NetworkImpl:
+    kind: CISCO::Meraki::1_0::Resources::Network
+    parameters:
+      targetResource: $Meraki
+      organizationId: $parent.organizationId
+      authToken: $authToken
+      sd_name: $name
+      productTypes: "@split($networkType, ,)"
+      copyFromNetworkId: $copyFromNetworkId

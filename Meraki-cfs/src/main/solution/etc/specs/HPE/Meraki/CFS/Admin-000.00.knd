@@ -1,0 +1,54 @@
+DSD_kind_specification: V001
+
+package: HPE::Meraki::CFS
+name: Admin
+version: 000.00
+
+makeservice: true
+
+parameters:
+
+  Meraki:
+    type: object
+    display: true
+    value: $parent.Meraki
+  
+  authToken:
+    type: string
+    display: true
+    description: "Authentication Token"
+    value: $Meraki.authToken
+    
+  name:
+    type: string
+    source: request
+    description: "Admin Name"
+    display: true
+    optional: false
+  
+  email:
+    type: string
+    source: request
+    description: "Admin Email ID"
+    display: true
+    optional: false
+  
+  orgAccess:
+    type: string
+    source: request
+    description: "Organization Access"
+    display: true
+    optional: false
+    range: ["read-only", "full", "none"]
+    
+components:
+  AdminImpl:
+    kind: CISCO::Meraki::1_0::Resources::Admin
+    parameters:
+      targetResource: $Meraki
+      organizationid: $parent.organizationId
+      authToken: $authToken
+      sd_name: $name
+      email: $email
+      orgAccess: $orgAccess
+      

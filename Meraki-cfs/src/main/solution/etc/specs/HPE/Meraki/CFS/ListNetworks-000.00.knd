@@ -1,0 +1,43 @@
+DSD_kind_specification: V001
+
+package: HPE::Meraki::CFS
+name: ListNetworks
+version: 000.00
+
+root: true
+makeservice: true
+
+parameters:
+
+  Meraki:
+    type: object
+    display: false
+    value: "@bean(com.hp.ov.activator.ci.dde.inventory.Service, findByServicetypeversion, CISCO::Meraki::1_0::System-000.00)"
+  
+  authToken:
+    type: string
+    display: false
+    description: "Authentication Token"
+    value: $Meraki.authToken
+    
+  organizationId:
+    type: string
+    description: "Organization Identifier"
+    label: Organization Id
+    source: request
+    optional: false
+  
+  Networks:
+    type: list<object>
+    display: true
+    description: Displays all Networks under organization
+    value: "@parsejson($Nwks.networks)"
+  
+components:
+  Nwks:
+    kind: CISCO::Meraki::1_0::Resources::ListNetworks
+    parameters:
+       targetResource: $Meraki
+       authToken: $authToken
+       organizationId: $organizationId
+       

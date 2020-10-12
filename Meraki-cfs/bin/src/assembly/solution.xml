@@ -1,0 +1,165 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
+    <id>default</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <dependencySets>
+        <dependencySet>
+            <!-- 3rd party libs -->
+            <outputDirectory>3rd-party/lib</outputDirectory>
+            <scope>runtime</scope>
+            <includes>
+                <include>*:*:jar</include>
+            </includes>
+            <excludes>
+                <!-- We'll treat our own libraries separately -->
+                <exclude>${project.groupId}:*</exclude>
+            </excludes>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+
+        <dependencySet>
+            <!-- Own libraries -->
+            <outputDirectory>3rd-party/lib</outputDirectory>
+            <scope>runtime</scope>
+            <includes>
+                <include>${project.groupId}:*:jar</include>
+            </includes>
+            <excludes>
+                <!-- Struts stuff should go into UI/WEB-INF/lib instead -->
+                <exclude>${project.groupId}:*:jar:struts:${project.version}</exclude>
+            </excludes>
+
+            <!-- Strip version information from own libraries -->
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+
+        <dependencySet>
+            <!-- Inventory libraries -->
+            <outputDirectory>inventory/lib/bean</outputDirectory>
+            <scope>runtime</scope>
+            <includes>
+                <include>${project.groupId}:*:hpsainventory</include>
+            </includes>
+
+            <!-- Strip version information from own libraries -->
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+
+        <dependencySet>
+            <!-- Resource Manager plugins -->
+            <outputDirectory>plugins</outputDirectory>
+            <includes>
+                <include>${project.groupId}:*:hpsaplugin</include>
+            </includes>
+            <!-- Strip version information from PARs -->
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+
+        <dependencySet>
+            <!-- Web services -->
+            <outputDirectory>etc/web_services</outputDirectory>
+            <includes>
+                <include>${project.groupId}:*:war</include>
+            </includes>
+            <!-- Strip version information from own libraries -->
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+
+        <dependencySet>
+            <!-- Workflow designer node descriptors -->
+            <outputDirectory>etc/designer</outputDirectory>
+            <includes>
+                <include>${project.groupId}:*:zip:designer:${project.version}</include>
+            </includes>
+            <unpack>true</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+
+        <dependencySet>
+            <!-- Inventory stuff -->
+            <outputDirectory>inventory</outputDirectory>
+            <includes>
+                <include>${project.groupId}:*:zip:inventory:${project.version}</include>
+            </includes>
+            <unpack>true</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <fileSet>
+            <!-- Static solution structure: filtered stuff -->
+            <directory>${project.basedir}/src/main/solution</directory>
+            <outputDirectory>.</outputDirectory>
+            <excludes>
+                <exclude>**/*.class</exclude>
+                <exclude>**/*.dtd</exclude>
+                <exclude>**/*.gif</exclude>
+                <exclude>**/*.ico</exclude>
+                <exclude>**/*.jpg</exclude>
+                <exclude>**/*.knd</exclude>
+                <exclude>**/*.png</exclude>
+                <exclude>**/*.sql</exclude>
+                <exclude>**/*.yaml</exclude>
+                <exclude>**/*.jar</exclude>
+                <exclude>**/*.war</exclude>
+                <exclude>**/*.zip</exclude>
+            </excludes>
+            <filtered>true</filtered>
+        </fileSet>
+
+        <fileSet>
+            <!-- Static solution structure: non-filtered stuff -->
+            <directory>${project.basedir}/src/main/solution</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>**/*.class</include>
+                <include>**/*.dtd</include>
+                <include>**/*.gif</include>
+                <include>**/*.ico</include>
+                <include>**/*.jpg</include>
+                <include>**/*.knd</include>
+                <include>**/*.png</include>
+                <include>**/*.sql</include>
+                <include>**/*.yaml</include>
+                <include>**/*.jar</include>
+                <include>**/*.war</include>
+                <include>**/*.zip</include>
+            </includes>
+            <filtered>false</filtered>
+        </fileSet>
+
+        <fileSet>
+            <!-- Ensure etc/sql exists in the generated solution -->
+            <directory>.</directory>
+            <outputDirectory>etc/sql</outputDirectory>
+            <excludes>
+                <exclude>*/**</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <!-- Ensure inventory/src exists in the generated solution -->
+            <directory>.</directory>
+            <outputDirectory>inventory/src</outputDirectory>
+            <excludes>
+                <exclude>*/**</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <!-- Ensure inventory/jsql exists in the generated solution -->
+            <directory>.</directory>
+            <outputDirectory>inventory/jsql</outputDirectory>
+            <excludes>
+                <exclude>*/**</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+</assembly>

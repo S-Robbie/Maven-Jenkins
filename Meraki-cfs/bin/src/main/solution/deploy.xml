@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Solution SYSTEM "deploy.dtd" >
+<Solution>
+    <Name>AF</Name>
+
+    <Plugins>
+        <File overwrite="true">*.par</File>
+    </Plugins>
+
+    <CT>
+        <File>*.xml</File>
+    </CT>
+
+    <Third-Party-Lib>
+        <File overwrite="true">*.jar</File>
+    </Third-Party-Lib>
+
+    <UI>
+        <File>**/*.jsp</File>
+        <File>**/*.class</File>
+        <File overwrite="true">**/*.gif</File>
+        <File>**/*.js</File>
+    </UI>
+
+    <Inventory-Trees>
+        <Tree-File overwrite="true">*.xml</Tree-File>
+    </Inventory-Trees>
+
+    <UMM>
+        <File>*.xml</File>
+    </UMM>
+
+    <Workflows>
+        <File>*.xml</File>
+    </Workflows>
+
+    <XMaps>
+        <File>*.xml</File>
+    </XMaps>
+
+    <Config>
+        <File>**/*</File>
+    </Config>
+
+  <Templates>
+    <File overwrite="true">**/*.json</File>
+    <File overwrite="true">**/*.xml</File>
+    <File overwrite="true">**/*.xsl</File>
+  </Templates>
+  
+
+    <Designer>
+        <File overwrite="true">**/*.xml</File>
+        <File overwrite="true">**/*.dtd</File>
+    </Designer>
+
+    <NLS>
+        <File>*_en.properties</File>
+    </NLS>
+
+    <Messages>
+        <File>**/*.xml</File>
+    </Messages>
+    
+</Solution>

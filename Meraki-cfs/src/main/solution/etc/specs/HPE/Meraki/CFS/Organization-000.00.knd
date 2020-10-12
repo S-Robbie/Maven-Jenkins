@@ -1,0 +1,43 @@
+DSD_kind_specification: V001
+
+package: HPE::Meraki::CFS
+name: Organization
+version: 000.00
+
+root: true
+makeservice: true
+
+parameters:
+
+  Meraki:
+    type: object
+    value: "@bean(com.hp.ov.activator.ci.dde.inventory.Service, findByServicetypeversion, CISCO::Meraki::1_0::System-000.00)"
+
+  authToken:
+    type: string
+    description: "Authentication Token"
+    value: $Meraki.authToken
+    
+
+  name:
+    type: string
+    source: request
+    optional: false
+    description: "Organization Name"
+
+components:
+  OrgImpl:
+    kind: CISCO::Meraki::1_0::Resources::Organization
+    parameters:
+      targetResource: $Meraki
+      authToken: $authToken
+      sd_name: $name
+      
+services:
+  Network:
+    kind: HPE::Meraki::CFS::Network
+    
+  Admin:
+    kind: HPE::Meraki::CFS::Admin
+
+    

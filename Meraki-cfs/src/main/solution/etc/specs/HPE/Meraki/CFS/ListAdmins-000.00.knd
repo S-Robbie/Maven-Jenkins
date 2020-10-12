@@ -1,0 +1,44 @@
+DSD_kind_specification: V001
+
+package: HPE::Meraki::CFS
+name: ListAdmins
+version: 000.00
+
+root: true
+makeservice: true
+
+parameters:
+
+  Meraki:
+    type: object
+    display: false
+    value: "@bean(com.hp.ov.activator.ci.dde.inventory.Service, findByServicetypeversion, CISCO::Meraki::1_0::System-000.00)"
+  
+  authToken:
+    type: string
+    display: false
+    description: "Authentication Token"
+    value: $Meraki.authToken
+    
+  organizationId:
+    type: string
+    description: "Organization Identifier"
+    label: Organization Id
+    source: request
+    optional: false
+  
+  admn:
+    type: list<object>
+    display: true
+    label: Admins
+    description: Display admins under organization
+    value: "@parsejson($Admins.admins)"
+  
+components:
+  Admins:
+    kind: CISCO::Meraki::1_0::Resources::ListAdmins
+    parameters:
+       targetResource: $Meraki
+       authToken: $authToken
+       organizationId: $organizationId
+       

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Version SYSTEM "version.dtd">
+
+<Version type="solution">
+  <Solution-Name>AF</Solution-Name>
+  <Label>AF</Label>
+  <Major>9</Major>
+  <Minor>10</Minor>
+  <Revision>0</Revision>
+  <Requires orLater="minor" numeric="true">
+    <Solution>DDE</Solution>
+    <Major>9</Major>
+    <Minor>9</Minor>
+    <Revision>0</Revision>
+  </Requires>
+</Version>

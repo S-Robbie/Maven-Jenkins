@@ -1,0 +1,97 @@
+DSD_kind_specification: V001
+
+package: HPE::Meraki::CFS
+name: Device
+version: 000.00
+
+makeservice: true
+
+parameters:
+
+  serials:
+    type: string
+    source: request
+    display: true
+    optional: false
+  
+  name:
+    type: string
+    source: request
+    optional: false
+    
+  lat:
+    type: string
+    label: Lattitude
+    description: "The latitude of a device"
+    source: request
+    optional: true  
+    
+  lng:
+    type: string
+    label: Longitude
+    description: "The longitude of a device"
+    source: request
+    optional: true
+    
+  address:
+    type: string
+    label: Address
+    description: "The address of a device"
+    source: request
+    optional: true
+    
+  notes:
+    type: string
+    label: Notes
+    description: "The notes for the device. String. Limited to 255 characters."
+    source: request
+    optional: true
+    
+  floorPlanId:
+    type: string
+    label: Floor Plan ID
+    description: "The floor plan to associate to this device. null disassociates the device from the floorplan."
+    source: request
+    optional: true
+
+
+components:
+
+  claimDevice:
+    kind: CISCO::Meraki::1_0::Resources::claimIntoOrganization
+    parameters:
+      targetResource: $parent.Meraki
+      authToken: $parent.authToken
+      organizationid: $parent.NetworkImpl.organizationId
+      serials: "@list($serials)"
+  
+  DeviceImpl:
+    kind: CISCO::Meraki::1_0::Resources::Device
+    parameters:
+      depends_on: $claimDevice
+      targetResource: $parent.Meraki
+      authToken: $parent.authToken
+      networkId: $parent.NetworkImpl.id
+      serials: "@list($serials)"
+      lat: $lat
+      lng: $lng
+      address: $address
+      notes: $notes
+      floorPlanId: $floorPlanId
+      
+  DeviceAttribute:
+    kind: CISCO::Meraki::1_0::Resources::deviceAttribute
+    parameters:
+      depends_on: $DeviceImpl
+      targetResource: $parent.Meraki
+      authToken: $parent.authToken
+      networkId: $parent.NetworkImpl.id
+      serial: $serials
+      lat: $lat
+      lng: $lng
+      address: $address
+      notes: $notes
+      floorPlanId: $floorPlanId
+
+  
+  
