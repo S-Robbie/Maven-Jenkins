@@ -1,8 +1,8 @@
 #!/bin/bash
 
-$ACTIVATOR_OPT/bin/deploymentmanager UndeploySolution -solutionName meracfs  
-$ACTIVATOR_OPT/bin/deploymentmanager DeleteSolution -solutionName meracfs       
-$ACTIVATOR_OPT/bin/deploymentmanager ImportSolution -file /home/rob/jenkins/*.zip
-$ACTIVATOR_OPT/bin/deploymentmanager DeploySolution -solutionName meracfs      
+/opt/OV/ServiceActivator/bin/deploymentmanager UndeploySolution -solutionName meracfs  
+/opt/OV/ServiceActivator/bin/deploymentmanager DeleteSolution -solutionName meracfs       
+/opt/OV/ServiceActivator/bin/deploymentmanager ImportSolution -file /home/rob/jenkins/*.zip
+/opt/OV/ServiceActivator/bin/deploymentmanager DeploySolution -solutionName meracfs      
 
 systemctl restart activator.service                 
